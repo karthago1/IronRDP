@@ -7,8 +7,8 @@ pub use ironrdp_graphics::image_processing::PixelFormat;
 /// and the RDP spec
 ///
 #[derive(Debug, Clone)]
-pub enum DisplayUpdate {
-    Bitmap(BitmapUpdate),
+pub enum DisplayUpdate<'life> {
+    Bitmap(BitmapUpdate<'life>),
 }
 
 #[derive(Debug, Clone, Copy)]
@@ -23,14 +23,14 @@ pub enum PixelOrder {
 /// Fastpath Server Updates
 ///
 #[derive(Debug, Clone)]
-pub struct BitmapUpdate {
+pub struct BitmapUpdate<'life> {
     pub top: u32,
     pub left: u32,
     pub width: u32,
     pub height: u32,
     pub format: PixelFormat,
     pub order: PixelOrder,
-    pub data: Vec<u8>,
+    pub data: &'life [u8],
 }
 
 /// Display Update receiver for an RDP server
